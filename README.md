@@ -26,6 +26,42 @@ churn-prediction/
 
 ---
 
+## Data Processing
+
+- Dataset: `WA_Fn-UseC_-Telco-Customer-Churn.csv` (Kaggle)
+- Removed rows with missing `TotalCharges`
+- Converted `TotalCharges` to numeric
+- Dropped `customerID` (not informative)
+- Target column `Churn` mapped: Yes → 1, No → 0
+
+**Class imbalance:**  
+The target variable is imbalanced (`Yes`: 26%, `No`: 74%) and this is taken into account during train/validation/test split.
+
+**Data Split:**
+- 60% training
+- 20% validation
+- 20% test  
+(Stratified splitting to maintain target distribution)
+
+**Feature Engineering**
+
+- Numerical features → `StandardScaler`
+- Categorical features → `OneHotEncoder`
+
+All preprocessing is done via a `ColumnTransformer` inside a `Pipeline`. The trained model and preprocessing steps are saved together as `model_pipeline.pkl`.
+
+
+---
+
+## Model Training
+
+Model is trained using Scikit-learn with Logistic Regression as a baseline. Pipeline and training logic are stored in `src/pipelines/train_model.py`.
+
+Hyperparameter tuning and experiment tracking are integrated via MLflow (hosted on DagsHub).
+
+
+---
+
 ## Tech Stack
 - Python 3.10
 - Pandas, scikit-learn
@@ -34,3 +70,8 @@ churn-prediction/
 - Docker for containerization
 - Streamlit for UI
 - GitHub Actions (planned) for CI/CD
+
+6. How to Run
+7. Results / Metrics
+
+8. Future Work

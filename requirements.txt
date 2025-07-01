@@ -4,3 +4,5 @@ scikit-learn==1.7.0
 jupyter==1.1.1
 matplotlib==3.10.3
 seaborn==0.13.2
+python-box
+ensure
