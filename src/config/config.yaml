@@ -11,3 +11,7 @@ data_params:
   test_size: 0.2
   val_size: 0.2
   random_state: 42
+
+model_registry:
+  name: rf-optuna-model
+  stage: None

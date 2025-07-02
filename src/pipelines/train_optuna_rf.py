@@ -113,6 +113,7 @@ def train_rf_optuna(config_path: Path):
             "roc_auc": roc_auc
         })
         mlflow.sklearn.log_model(final_pipeline, artifact_path="model", registered_model_name="rf-optuna-model")
+    mlflow.end_run()
 
 
 if __name__ == "__main__":

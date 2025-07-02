@@ -150,6 +150,16 @@ These results show that Logistic Regression achieves a better **precision**, whi
 
 > ⚠️ Note: The goal of this project is not to maximize model performance, but to demonstrate **end-to-end MLOps workflow** including model versioning, configuration management, and reproducible pipelines.
 
+## Final Evaluation on Test Set
+
+The final model was evaluated on the test set with the following metrics:
+
+| Metric     | Value  |
+|------------|--------|
+| Accuracy   | 0.6937 |
+| F1 Score   | 0.5852 |
+| ROC AUC    | 0.7317 |
+
 
 ## MLflow Tracking with DagsHub
 
@@ -191,6 +201,8 @@ You can generate a personal access token from your [DagsHub profile](https://dag
 - All MLflow runs will be visible under the corresponding experiment in your DagsHub UI.
 - If you use nested runs (e.g., for hyperparameter tuning with Optuna), they will also be grouped and logged properly.
 - For optimal reproducibility and collaboration, do **not** commit your `.env` file to version control. Add it to `.gitignore`.
+
+#TODO explain .env.example and Make file
 
 
 ## Tech Stack
