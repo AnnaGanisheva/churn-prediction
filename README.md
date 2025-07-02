@@ -83,6 +83,74 @@ As the primary focus of this project is to practice **MLOps skills**, not to opt
 - Feature engineering or adding domain-specific features
 - Using cross-validation during hyperparameter tuning
 
+## Model Training and Optimization
+
+This project uses both **Logistic Regression** and **Random Forest** classifiers to model churn prediction. We use **Optuna** for hyperparameter optimization and **MLflow** for experiment tracking.
+
+### Why Optuna?
+
+[Optuna](https://optuna.org/) is a modern, flexible hyperparameter optimization library that allows efficient searching via techniques like **Tree-structured Parzen Estimator (TPE)**. We chose it because of:
+- automatic support for early stopping and pruning,
+- clean integration with Python code,
+- excellent visualization and analysis tools,
+- easy nesting of MLflow logging inside optimization trials.
+
+---
+
+## Results
+
+### Logistic Regression (with `class_weight="balanced"`)
+
+**Best hyperparameters:**
+
+| Parameter   | Value         |
+|-------------|---------------|
+| C           | 1.2481        |
+| max_iter    | 833           |
+| solver      | liblinear     |
+
+**Metrics (Validation set):**
+
+| Metric     | Value          |
+|------------|----------------|
+| accuracy   | 0.7726         |
+| precision  | 0.5549         |
+| recall     | 0.7299         |
+| f1         | 0.6305         |
+| roc_auc    | 0.7590         |
+
+---
+
+### Random Forest Classifier (with `class_weight="balanced"`)
+
+**Best hyperparameters:**
+
+| Parameter         | Value |
+|-------------------|-------|
+| n_estimators      | 184   |
+| max_depth         | 15    |
+| min_samples_split | 6     |
+| min_samples_leaf  | 3     |
+| max_features      | sqrt  |
+| random_state      | 42    |
+
+**Metrics (Validation set):**
+
+| Metric     | Value          |
+|------------|----------------|
+| accuracy   | 0.7278         |
+| precision  | 0.4928         |
+| recall     | 0.8262         |
+| f1         | 0.6174         |
+| roc_auc    | 0.7592         |
+
+---
+
+These results show that Logistic Regression achieves a better **precision**, while Random Forest reaches a higher **recall**, which might be important if you want to reduce false negatives in churn prediction.
+
+> ⚠️ Note: The goal of this project is not to maximize model performance, but to demonstrate **end-to-end MLOps workflow** including model versioning, configuration management, and reproducible pipelines.
+
+
 ## MLflow Tracking with DagsHub
 
 This project uses **MLflow** for experiment tracking, integrated with [DagsHub](https://dagshub.com) as the remote tracking server. All models, parameters, and metrics are logged remotely and can be visualized in the DagsHub UI.
