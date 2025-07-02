@@ -3,13 +3,11 @@ data_paths:
   processed_data: data/processed/clean.csv
   split_data_dir: data/split/
   train_data: data/split/train.csv
+  val_data: data/split/val.csv
+  test_data: data/split/test.csv
 
 data_params:
   target: Churn
   test_size: 0.2
   val_size: 0.2
   random_state: 42
-
-model_paths:
-  model: artifacts/model_pipeline.pkl
-  preprocessor: artifacts/preprocessor.pkl

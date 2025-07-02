@@ -61,6 +61,69 @@ Hyperparameter tuning and experiment tracking are integrated via MLflow (hosted 
 
 
 ---
+## Model and Results
+
+This project uses **Logistic Regression** as the baseline model for predicting customer churn. After tuning hyperparameters with Optuna and adjusting for class imbalance using `class_weight="balanced"`, the model achieved the following validation metrics:
+
+| Metric     | Value   |
+|------------|---------|
+| Accuracy   | 0.773   |
+| Precision  | 0.555   |
+| Recall     | 0.730   |
+| F1 Score   | 0.630   |
+| ROC AUC    | 0.759   |
+
+## Potential Improvements
+
+As the primary focus of this project is to practice **MLOps skills**, not to optimize model accuracy, the training process was intentionally kept simple. However, model performance could be improved further through:
+
+- Trying different classifiers (e.g., XGBoost, RandomForest)
+- Addressing class imbalance with techniques like oversampling or undersampling
+- Tuning the classification threshold (instead of using the default 0.5)
+- Feature engineering or adding domain-specific features
+- Using cross-validation during hyperparameter tuning
+
+## MLflow Tracking with DagsHub
+
+This project uses **MLflow** for experiment tracking, integrated with [DagsHub](https://dagshub.com) as the remote tracking server. All models, parameters, and metrics are logged remotely and can be visualized in the DagsHub UI.
+
+### Environment Variables
+
+To use MLflow with DagsHub, create a `.env` file in the root of the project with the following variables:
+
+```
+MLFLOW_TRACKING_URI=https://dagshub.com/YOUR_USERNAME/YOUR_REPO_NAME.mlflow
+MLFLOW_TRACKING_USERNAME=your-dagshub-username
+MLFLOW_TRACKING_PASSWORD=your-dagshub-token
+```
+
+Replace `YOUR_USERNAME`, `YOUR_REPO_NAME`, and the credentials with your actual DagsHub account information.
+
+### Python Integration
+
+Make sure to install `python-dotenv`:
+
+```
+pip install python-dotenv
+```
+
+In your training scripts, load the environment variables with:
+
+```python
+from dotenv import load_dotenv
+load_dotenv()
+```
+
+### Token Generation
+
+You can generate a personal access token from your [DagsHub profile](https://dagshub.com/settings/token). Use this token as the value for `MLFLOW_TRACKING_PASSWORD`.
+
+### Notes
+
+- All MLflow runs will be visible under the corresponding experiment in your DagsHub UI.
+- If you use nested runs (e.g., for hyperparameter tuning with Optuna), they will also be grouped and logged properly.
+- For optimal reproducibility and collaboration, do **not** commit your `.env` file to version control. Add it to `.gitignore`.
+
 
 ## Tech Stack
 - Python 3.10
