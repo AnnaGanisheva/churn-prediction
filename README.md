@@ -205,6 +205,47 @@ You can generate a personal access token from your [DagsHub profile](https://dag
 #TODO explain .env.example and Make file
 
 
+### 🔮 Inference via Streamlit (Dockerized)
+
+This project includes a **Streamlit-based UI** for making predictions using the trained and registered model.
+
+---
+
+#### 🚀 Build the Docker image
+
+```bash
+docker build -t churn-app .
+```
+
+---
+
+#### ⚙️ Run the app (with environment variables)
+
+To allow access to the MLflow model registry (e.g. hosted on DagsHub), make sure you have a `.env` file in the root of your project containing:
+
+```env
+MLFLOW_TRACKING_URI=https://dagshub.com/<your-username>/<your-repo>.mlflow
+MLFLOW_TRACKING_USERNAME=<your-username>
+MLFLOW_TRACKING_PASSWORD=<your-token>
+```
+
+Then run the app:
+
+```bash
+docker run --env-file .env -p 8501:8501 --name churn-ui churn-app
+```
+
+> Open in browser: [http://localhost:8501](http://localhost:8501)
+
+---
+
+#### 🧠 What it does
+
+- Loads a trained model from MLflow registry (`rf-optuna-model`)
+- Displays a form to enter basic customer features
+- Shows predicted **churn (yes/no)** and **probability**
+
+
 ## Tech Stack
 - Python 3.10
 - Pandas, scikit-learn

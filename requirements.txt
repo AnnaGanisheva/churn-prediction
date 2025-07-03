@@ -11,3 +11,4 @@ mlflow==2.11.3
 optuna
 dvc
 dvc_s3
+streamlit
