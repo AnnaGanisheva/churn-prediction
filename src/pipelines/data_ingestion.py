@@ -1,7 +1,9 @@
 import os
-import pandas as pd
-from src.utils.common import read_yaml
 from pathlib import Path
+
+import pandas as pd
+
+from src.utils.common import read_yaml
 from src.utils.logger import logger
 
 
@@ -10,13 +12,13 @@ def ingest_data(data_path: Path, output_path: Path) -> None:
     Ingests data from CSV file and save the processed data.
     """
 
-    logger.info(f"Loading data from {data_path}")
+    logger.info("Loading data from %s", data_path)
     df = pd.read_csv(data_path)
 
     # Clean TotalCharges (some have ' ')
     df["TotalCharges"] = pd.to_numeric(df["TotalCharges"], errors="coerce")
     df.dropna(subset=["TotalCharges"], inplace=True)
-    
+
     # Map target variable
     df["Churn"] = df["Churn"].map({"No": 0, "Yes": 1})
 
@@ -24,7 +26,7 @@ def ingest_data(data_path: Path, output_path: Path) -> None:
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     df.to_csv(output_path, index=False)
-    logger.info(f"Processed data saved to {output_path}")
+    logger.info("Processed data saved to %s", output_path)
 
 
 if __name__ == "__main__":

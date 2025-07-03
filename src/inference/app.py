@@ -1,4 +1,5 @@
 import streamlit as st
+
 from src.inference.predict import predict
 
 st.title("Churn Prediction")
@@ -33,7 +34,7 @@ input_dict = {
     "PaperlessBilling": "Yes",
     "PaymentMethod": "Electronic check",
     "MonthlyCharges": monthly_charges,
-    "TotalCharges": tenure * monthly_charges  # simple estimation
+    "TotalCharges": tenure * monthly_charges,  # simple estimation
 }
 
 

@@ -1,0 +1,11 @@
+# Testing
+pytest
+coverage
+
+# Linting & Code Formatting
+pylint
+black
+isort
+
+# Pre-commit hooks
+pre-commit
