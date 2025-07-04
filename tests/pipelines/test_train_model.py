@@ -9,7 +9,6 @@ from src.pipelines.train_model import train
 @patch("src.pipelines.train_model.build_preprocessing_pipeline")
 @patch("src.pipelines.train_model.mlflow")
 @patch("src.pipelines.train_model.read_yaml")
-@patch("src.pipelines.train_model.load_dotenv")
 def test_train_model(mock_read_yaml, mock_mlflow, mock_build_preprocessor, tmp_path):
     train_file = tmp_path / "train.csv"
     mock_read_yaml.return_value = MagicMock(

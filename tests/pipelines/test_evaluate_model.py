@@ -8,7 +8,6 @@ from src.pipelines.evaluate_model import evaluate_model
 
 @patch("src.pipelines.evaluate_model.mlflow")
 @patch("src.pipelines.evaluate_model.read_yaml")
-@patch("src.pipelines.evaluate_model.load_dotenv")
 def test_evaluate_model(mock_read_yaml, mock_mlflow, tmp_path):
     mock_read_yaml.return_value = MagicMock(
         data_paths=MagicMock(test_data=str(tmp_path / "test.csv")),
