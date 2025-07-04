@@ -1,6 +1,8 @@
 # Testing
 pytest
 coverage
+coverage-badge
+pytest-cov
 
 # Linting & Code Formatting
 pylint
@@ -10,5 +12,3 @@ isort
 # Pre-commit hooks
 pre-commit
 
-# Coverage badge
-coverage-badge
