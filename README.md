@@ -1,3 +1,5 @@
+[![coverage](badges/coverage.svg)](badges/coverage.svg)
+
 # Customer Churn Prediction
 
 This project aims to build a machine learning system to predict customer churn based on telecom user data.  
@@ -289,6 +291,42 @@ To run all hooks manually:
 pre-commit run --all-files
 ```
 
+## 🧪 Testing & Quality
+
+### ✅ Linting & Code Formatting
+
+This project uses [Pre-commit](https://pre-commit.com/) with the following hooks:
+- [`black`](https://github.com/psf/black) — Python code formatter
+- [`isort`](https://github.com/PyCQA/isort) — Import sorting
+- [`pylint`](https://github.com/PyCQA/pylint) — Linting
+
+#### 📌 Setup:
+```bash
+pip install pre-commit
+pre-commit install
+To run manually:
+pre-commit run --all-files
+
+Running Tests
+We use pytest for running unit and integration tests.
+
+Run all tests:
+
+bash
+Копировать
+Редактировать
+pytest
+With coverage:
+
+bash
+Копировать
+Редактировать
+pytest --cov=src --cov=tests
+Generate HTML coverage report:
+pytest --cov=src --cov=tests --cov-report=html
+open htmlcov/index.html  # On Linux/Mac
+
+ Integration Tests (Planned)
 
 
 ## Tech Stack

@@ -9,3 +9,6 @@ isort
 
 # Pre-commit hooks
 pre-commit
+
+# Coverage badge
+coverage-badge
