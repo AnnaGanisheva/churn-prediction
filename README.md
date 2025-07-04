@@ -245,6 +245,51 @@ docker run --env-file .env -p 8501:8501 --name churn-ui churn-app
 - Displays a form to enter basic customer features
 - Shows predicted **churn (yes/no)** and **probability**
 
+## 🛠 Development setup
+
+This project follows best practices for code quality and automation.
+
+### 📦 Install development dependencies
+
+```bash
+pip install -r requirements-dev.txt
+```
+
+### ✅ Run tests
+
+```bash
+pytest
+```
+
+### 📏 Code formatting and linting
+
+We use `black`, `isort`, `pylint`.
+
+Run all checks manually:
+
+```bash
+black src/
+isort src/
+pylint src/
+```
+
+### 🧪 Pre-commit hooks
+
+This project uses pre-commit to automatically check formatting, linting, and typing before every commit.
+
+To enable:
+
+```bash
+pre-commit install
+```
+
+To run all hooks manually:
+
+```bash
+pre-commit run --all-files
+```
+
+
 
 ## Tech Stack
 - Python 3.10

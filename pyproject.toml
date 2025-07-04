@@ -23,3 +23,15 @@ disable = [
 [tool.pylint.'MAIN']
 init-hook = 'import sys; from pathlib import Path; sys.path.insert(0, str(Path(".").resolve()))'
 
+[tool.pytest.ini_options]
+filterwarnings = [
+  "ignore::DeprecationWarning:mlflow.*",
+  "ignore::DeprecationWarning:pkg_resources.*",
+  "ignore::DeprecationWarning:pydantic.*"
+]
+
+[tool.coverage.run]
+source = ["src"]
+
+[tool.coverage.report]
+show_missing = true
