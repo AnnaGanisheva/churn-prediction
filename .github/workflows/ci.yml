@@ -60,14 +60,20 @@ jobs:
         with:
           name: coverage-badge
           path: badges/coverage.svg
+      
+      # - name: Setup Git for GitHub Actions
+      #   run: |
+      #     git config user.name "github-actions[bot]"
+      #     git config user.email "github-actions[bot]@users.noreply.github.com"
+      #     git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
 
-      # Optional — авто-коміт бейджа (вимагає налаштування git user/token)
-      - name: Commit coverage badge
-        if: github.ref == 'refs/heads/main'
-        run: |
-          git config --global user.email "ci@example.com"
-          git config --global user.name "GitHub Action"
-          git add badges/coverage.svg
-          git commit -m "Update coverage badge [skip ci]" || echo "No changes to commit"
-          git push
+      # # Optional — авто-коміт бейджа (вимагає налаштування git user/token)
+      # - name: Commit coverage badge
+      #   if: github.ref == 'refs/heads/main'
+      #   run: |
+      #     git config --global user.email "ci@example.com"
+      #     git config --global user.name "GitHub Action"
+      #     git add badges/coverage.svg
+      #     git commit -m "Update coverage badge [skip ci]" || echo "No changes to commit"
+      #     git push
     
