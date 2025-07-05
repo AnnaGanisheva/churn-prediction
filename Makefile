@@ -1,6 +1,6 @@
 .PHONY: all ingest split train_logreg train_rf train_all evaluate \
         test quality_checks build integration_test publish setup \
-        precommit_check
+        precommit_check prefect_deploy
 
 # --- ML PIPELINE --
 
@@ -44,6 +44,11 @@ quality_checks:
 
 # Run what happens in pre-commit
 precommit_check: quality_checks test
+
+# Prefect deployment
+prefect_deploy:
+	PYTHONPATH=. python src/orchestration/create_deployment.py
+
 
 # Initial setup
 setup:

@@ -12,3 +12,9 @@ optuna
 dvc
 dvc_s3
 streamlit
+
+# for prefect orcestration
+prefect==2.10.13
+pydantic==1.10.13
+griffe<0.42
+anyio==3.7.1
