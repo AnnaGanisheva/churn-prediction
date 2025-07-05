@@ -206,6 +206,48 @@ You can generate a personal access token from your [DagsHub profile](https://dag
 
 #TODO explain .env.example and Make file
 
+## 🚀 Workflow Orchestration with Prefect
+
+This project uses [Prefect 2.x](https://docs.prefect.io/) for orchestration of the full machine learning pipeline.
+
+### ✅ Implemented:
+
+- Modular pipeline defined with `Prefect` tasks and flows
+- Custom flow stored in `src/orchestration/train_flow.py`
+- CLI execution and local UI monitoring via `prefect orion start`
+- Scheduled deployment using `CronSchedule` via `Deployment.build_from_flow`
+
+### 💻 Quick Start
+
+Run Prefect UI (Orion server) locally:
+
+```bash
+prefect orion start
+Run the training pipeline flow manually:
+
+python src/orchestration/train_flow.py
+Create and apply a deployment with a daily schedule:
+
+PYTHONPATH=. python src/orchestration/create_deployment.py
+
+Scheduled Deployment
+We use a daily cron-based deployment (6 AM Berlin time):
+
+Deployment.build_from_flow(
+    flow=training_pipeline,
+    name="daily-training",
+    schedule=(CronSchedule(cron="0 6 * * *", timezone="Europe/Berlin")),
+).apply()
+ The agent picks up and executes scheduled flows automatically.
+
+ Next Steps
+ Wrap the Prefect agent and flow in a Docker container for production use
+
+ Connect to Prefect Cloud or deploy self-hosted Prefect Server
+
+ Monitor pipeline health with Grafana & alerts
+
+
 
 ### 🔮 Inference via Streamlit (Dockerized)
 
