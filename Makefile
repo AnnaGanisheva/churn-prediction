@@ -1,4 +1,8 @@
-.PHONY: all ingest split train_logreg train_rf train_all
+.PHONY: all ingest split train_logreg train_rf train_all evaluate \
+        test quality_checks build integration_test publish setup \
+        precommit_check
+
+# --- ML PIPELINE --
 
 # Run the full pipeline: data ingestion -> split -> training both models
 all: ingest split train_all
@@ -25,3 +29,24 @@ train_all: train_logreg train_rf
 # Evaluate the selected model from MLflow on the test set
 evaluate:
 	PYTHONPATH=. python src/pipelines/evaluate_model.py
+
+# --- DEV UTILS ---
+
+# Run tests (unit + integration)
+test:
+	pytest tests/
+
+# Format and lint
+quality_checks:
+	black --check src/ tests/
+	isort --check-only src/ tests/
+	pylint --recursive=y src/ tests/
+
+# Run what happens in pre-commit
+precommit_check: quality_checks test
+
+# Initial setup
+setup:
+	pip install -r requirements.txt
+	pip install -r requirements-dev.txt
+	pre-commit install
