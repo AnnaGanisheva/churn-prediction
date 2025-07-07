@@ -13,6 +13,9 @@ dvc
 dvc_s3
 streamlit
 
+#monitoring
+evidently
+
 # for prefect orcestration
 prefect==2.10.13
 pydantic==1.10.13

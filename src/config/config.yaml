@@ -15,3 +15,7 @@ data_params:
 model_registry:
   name: rf-optuna-model
   stage: None
+
+monitoring:
+  evidently_report_html: reports/evidently_drift_report.html
+  evidently_report_json: reports/evidently_drift_report.json
