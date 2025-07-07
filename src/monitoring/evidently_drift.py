@@ -1,0 +1,42 @@
+from pathlib import Path
+
+import pandas as pd
+from evidently.metrics import (
+    ColumnDriftMetric,
+    DatasetDriftMetric,
+    DatasetMissingValuesMetric,
+)
+from evidently.report import Report
+
+from src.utils.common import read_yaml
+from src.utils.logger import logger
+
+
+def run_data_drift_report():
+    logger.info("Start Evidently Data Drift Report generation")
+    config = read_yaml(Path("src/config/config.yaml"))
+
+    # load data
+    reference_data = pd.read_csv(Path(config.data_paths.test_data))
+    current_data = pd.read_csv(Path(config.data_paths.val_data))
+
+    # generate report
+    report = Report(
+        metrics=[
+            ColumnDriftMetric(column_name='Churn'),
+            DatasetDriftMetric(),
+            DatasetMissingValuesMetric(),
+        ]
+    )
+    report.run(reference_data=reference_data, current_data=current_data)
+
+    # save report
+    report_path_html = Path(config.monitoring.evidently_report_html)
+    report_path_html.parent.mkdir(parents=True, exist_ok=True)
+    report.save_html(config.monitoring.evidently_report_html)
+    report.save_json(config.monitoring.evidently_report_json)
+    logger.info("Report saved at %s", report_path_html.absolute())
+
+
+if __name__ == "__main__":
+    run_data_drift_report()
