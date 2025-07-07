@@ -12,6 +12,8 @@ optuna
 dvc
 dvc_s3
 streamlit
+psycopg
+psycopg_binary
 
 #monitoring
 evidently

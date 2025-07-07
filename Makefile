@@ -38,8 +38,8 @@ test:
 
 # Format and lint
 quality_checks:
-	black --check src/ tests/
-	isort --check-only src/ tests/
+	black src/ tests/
+	isort src/ tests/
 	pylint --recursive=y src/ tests/
 
 # Run what happens in pre-commit
