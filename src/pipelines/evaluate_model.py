@@ -1,8 +1,8 @@
 import os
 from pathlib import Path
-
 import mlflow
 import mlflow.sklearn
+from mlflow.tracking import MlflowClient
 import pandas as pd
 from dotenv import load_dotenv
 from sklearn.metrics import (
@@ -35,7 +35,9 @@ def evaluate_model(config_path: Path):
     y_test = df[target_column]
 
     # Load model from MLflow
-    model_uri = f"models:/{config.model_registry.name}/{config.model_registry.stage}"
+    client = MlflowClient()
+    latest_version = client.get_latest_versions(config.model_registry.name)[0].version
+    model_uri = f"models:/{config.model_registry.name}/{latest_version}"
     logger.info("Trying to load model from MLflow: %s", model_uri)
     model = mlflow.sklearn.load_model(model_uri)
 

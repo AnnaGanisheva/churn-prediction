@@ -1,13 +1,22 @@
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      # TODO solve problem with isort
+  # - repo: https://github.com/pycqa/isort
+  #   rev: 6.0.1
+  #   hooks:
+  #     - id: isort
+  #       name: isort (python)
   - repo: https://github.com/psf/black
-    rev: 23.3.0
+    rev: 25.1.0
     hooks:
       - id: black
-
-  - repo: https://github.com/pre-commit/mirrors-isort
-    rev: v5.10.1
-    hooks:
-      - id: isort
+        language_version: python3.10
 
   - repo: local
     hooks:

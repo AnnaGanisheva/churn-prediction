@@ -1,4 +1,4 @@
-volumes: 
+volumes:
   grafana_data: {}
 
 networks:
@@ -23,7 +23,7 @@ services:
       - "8080:8080"
     networks:
       - back-tier
-      - front-tier  
+      - front-tier
 
   grafana:
     image: grafana/grafana
@@ -38,3 +38,34 @@ services:
       - back-tier
       - front-tier
     restart: always
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow
+    command: mlflow server --host 0.0.0.0 --port 5050 --backend-store-uri sqlite:///mlflow.db --default-artifact-root /mlflow-artifacts
+    ports:
+      - "5050:5050"
+    volumes:
+      - ./mlflow:/mlflow-artifacts
+    networks:
+      - back-tier
+
+  prefect:
+    image: prefecthq/prefect:2.14-python3.10
+    command: prefect server start
+    ports:
+      - "4200:4200"
+    networks:
+      - back-tier
+
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8501:8501"
+    depends_on:
+      - mlflow
+      - db
+    networks:
+      - front-tier
+      - back-tier

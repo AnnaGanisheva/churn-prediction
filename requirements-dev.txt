@@ -11,4 +11,3 @@ isort
 
 # Pre-commit hooks
 pre-commit
-

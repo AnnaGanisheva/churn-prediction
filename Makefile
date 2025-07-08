@@ -30,6 +30,9 @@ train_all: train_logreg train_rf
 evaluate:
 	PYTHONPATH=. python src/pipelines/evaluate_model.py
 
+orchestration:
+	PYTHONPATH=. python src/orchestration/create_deployment.py
+
 # --- DEV UTILS ---
 
 # Run tests (unit + integration)
@@ -38,8 +41,8 @@ test:
 
 # Format and lint
 quality_checks:
-	black src/ tests/
-	isort src/ tests/
+	black --check src/ tests/
+	isort --check-only src/ tests/
 	pylint --recursive=y src/ tests/
 
 # Run what happens in pre-commit

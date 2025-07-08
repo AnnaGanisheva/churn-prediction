@@ -2,12 +2,12 @@
 
 # Customer Churn Prediction
 
-This project aims to build a machine learning system to predict customer churn based on telecom user data.  
+This project aims to build a machine learning system to predict customer churn based on telecom user data.
 It follows modern MLOps best practices — from data preparation and versioning to model training, experiment tracking, and deployment via an interactive Streamlit app.
 
 ---
 
-## Goal  
+## Goal
 Identify customers with a high risk of churn so the business can proactively retain them.
 
 ---
@@ -36,13 +36,13 @@ churn-prediction/
 - Dropped `customerID` (not informative)
 - Target column `Churn` mapped: Yes → 1, No → 0
 
-**Class imbalance:**  
+**Class imbalance:**
 The target variable is imbalanced (`Yes`: 26%, `No`: 74%) and this is taken into account during train/validation/test split.
 
 **Data Split:**
 - 60% training
 - 20% validation
-- 20% test  
+- 20% test
 (Stratified splitting to maintain target distribution)
 
 **Feature Engineering**

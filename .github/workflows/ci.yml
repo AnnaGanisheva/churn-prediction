@@ -32,7 +32,7 @@ jobs:
 
       - name: Check import order with isort
         run: isort --check-only src/ tests/
-      
+
       - name: Lint with pylint
         run: |
           pylint src/ tests/
@@ -40,7 +40,7 @@ jobs:
       - name: Run tests
         run: |
           pytest
-      
+
       - name: Run tests with coverage
         run: |
           coverage run -m pytest
@@ -60,7 +60,7 @@ jobs:
         with:
           name: coverage-badge
           path: badges/coverage.svg
-      
+
       - name: Setup Git for GitHub Actions
         run: |
           git config user.name "github-actions[bot]"
@@ -73,4 +73,3 @@ jobs:
           git add badges/coverage.svg
           git commit -m "Update coverage badge [skip ci]" || echo "No changes to commit"
           git push
-    
