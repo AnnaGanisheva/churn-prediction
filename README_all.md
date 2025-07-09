@@ -381,6 +381,10 @@ open htmlcov/index.html  # On Linux/Mac
 - GitHub Actions (planned) for CI/CD
 
 6. How to Run
+Clone project from github
+Run
+docker-compose up -d
+
 7. Results / Metrics
 
 8. Future Work

@@ -11,6 +11,7 @@ This project is a practical example of implementing the full **MLOps workflow** 
 - [Project Structure](#project-structure)
 - [Data Processing](#data-processing)
 - [Model Selection](#model-selection)
+- [Experiment Tracking](#experiment-tracking)
 - [Orchestration](#orchestration)
 - [Monitoring](#monitoring)
 - [Setup & Usage](#setup--usage)
@@ -81,6 +82,32 @@ While Logistic Regression achieved higher precision, **Random Forest** provided 
 Considering the business use case and model performance, **Random Forest** was selected as the final model and deployed for inference.
 
 > **Note:** The primary goal of this project is to demonstrate an end-to-end MLOps pipeline rather than maximizing model performance. Therefore, modeling was intentionally kept simple and focused on explainability and maintainability.
+---
+
+### Experiment Tracking
+
+All model training and tuning experiments were tracked using **MLflow**, which logs parameters, metrics, and artifacts for each run. This makes it easy to compare experiments and ensures reproducibility of results.
+
+MLflow was integrated directly into the training and optimization pipeline. During hyperparameter tuning with **Optuna**, each trial was logged as a separate MLflow run, including:
+
+- model type and hyperparameters,
+- training and validation metrics,
+- preprocessing configuration,
+- serialized model artifacts.
+
+To ensure environment consistency, MLflow runs inside a **Docker container** along with the training pipeline. This allows all tracking to happen in an isolated, reproducible setup.
+
+Trained models are also registered in the **MLflow Model Registry** from within the container, enabling version control and consistent deployment.
+
+Below is a parallel coordinates plot from MLflow showing how Random Forest hyperparameters influenced F1-score and recall during Optuna tuning.
+
+Only Random Forest results are shown, as its parameters are not directly comparable with other model types.
+
+![MLflow Experiments](project_info/mlflow_experiments.png)
+
+The best-performing models were registered in the MLflow Model Registry:
+
+![MLflow Model Registry](project_info/mlflow_registry.png)
 ---
 
 ### Orchestration

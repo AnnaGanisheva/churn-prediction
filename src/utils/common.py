@@ -46,7 +46,7 @@ def prepare_train_val_data(train_path: str, val_path: str, target: str):
 
 
 def train_model(experiment_name: str, objective_func, model_type: str):
-    logger.info("Starting RandomForest Optuna Tuning")
+    logger.info("Starting Optuna Tuning for %s", model_type)
     load_dotenv()
     mlflow.set_tracking_uri(os.getenv("MLFLOW_TRACKING_URI"))
     mlflow.set_experiment(experiment_name)
@@ -73,7 +73,7 @@ def train_model(experiment_name: str, objective_func, model_type: str):
     )
 
     study = optuna.create_study(direction="maximize")
-    study.optimize(objective_func, n_trials=3)
+    study.optimize(objective_func, n_trials=30)
     logger.info("Best params: %s", study.best_params)
 
     # Final model training
