@@ -6,4 +6,4 @@ logging.basicConfig(
     format="%(asctime)s: %(levelname)s: %(name)s: %(module)s: %(message)s",
     stream=sys.stdout,
 )
-logger = logging.getLogger("Sales_Predictor")
+logger = logging.getLogger("Сhurn_Prediction")

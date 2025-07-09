@@ -134,6 +134,9 @@ This registers the following daily flows in the Prefect UI:
 
 You can monitor, trigger, and manage flow runs via the Prefect dashboard (http://localhost:4200).
 
+Below is an example of registered deployments shown in the Prefect UI:
+
+![Prefect Deployments](project_info/prefect_deployments.png)
 
 ---
 
@@ -147,12 +150,45 @@ You can monitor, trigger, and manage flow runs via the Prefect dashboard (http:/
 
 #### Prerequisites
 
-- Python 3.10 or higher ([Install Python](https://www.python.org/downloads/))
-- Docker + Docker Compose ([Install Docker](https://docs.docker.com/get-docker/))
-- Prefect CLI v2 ([Installation guide](https://docs.prefect.io/latest/getting-started/installation/))
-- Git
+Make sure the following tools are installed:
 
-*(Include prerequisites, installation steps, how to run the app, and access links.)*
+- [Python 3.10+](https://www.python.org/downloads/)
+- [Docker + Docker Compose](https://docs.docker.com/get-docker/)
+- [Git](https://git-scm.com/)
+
+#### Installation & Run
+
+Clone the repository and start the full environment using Docker:
+
+```bash
+git clone https://github.com/your-username/churn-prediction
+cd churn-prediction
+
+# Start all services (MLflow, Prefect UI, Streamlit, Grafana, etc.)
+docker-compose up -d
+
+# Run training pipeline and register Prefect deployments
+docker-compose run churn-prediction-app make setup_project
+```
+
+The `setup_project` command performs the following:
+
+- runs the training pipeline (including data processing, hyperparameter tuning, model registration),
+- logs experiments to MLflow,
+- creates and applies Prefect deployments (training + monitoring).
+
+All dependencies are pinned in `requirements.txt`. Configurations are stored in YAML files under the `config/` directory and managed centrally.
+
+#### Access
+
+Once the environment is running, the following services are available:
+
+| Service         | URL                       | Credentials     |
+|-----------------|---------------------------|-----------------|
+| MLflow UI       | http://localhost:5050     | -               |
+| Streamlit App   | http://localhost:8501     | -               |
+| Prefect UI      | http://localhost:4200     | -               |
+| Grafana         | http://localhost:3000     | admin / admin   |
 
 ---
 

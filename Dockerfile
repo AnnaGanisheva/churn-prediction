@@ -10,6 +10,7 @@ COPY . .
 # Set PYTHONPATH so that `src` package is discoverable
 ENV PYTHONPATH=/app
 
+# Install GNU Make without recommended extras to keep image slim
 RUN apt-get update && apt-get install -y make \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
