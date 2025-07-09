@@ -112,7 +112,28 @@ The best-performing models were registered in the MLflow Model Registry:
 
 ### Orchestration
 
-*(Describe Prefect flows, deployments, scheduling, etc.)*
+All pipelines in this project are orchestrated using **Prefect** — a modern workflow orchestration framework.
+
+Two main flows are defined in this project:
+
+- `train_flow.py` – executes the full pipeline: data ingestion, preprocessing, model training, evaluation, and MLflow registration.
+- `monitoring_flow.py` – runs daily data drift checks using **Evidently**.
+
+Deployment definitions are managed programmatically in `create_deployment.py`, using `Deployment.build_from_flow()` with scheduled execution via `CronSchedule`.
+
+Once the Prefect server is up (via Docker Compose), the deployments can be applied with:
+
+```bash
+python create_deployment.py
+```
+
+This registers the following daily flows in the Prefect UI:
+
+- `daily-training` – runs every day at 06:00
+- `daily-monitoring` – runs every day at 06:30
+
+You can monitor, trigger, and manage flow runs via the Prefect dashboard (http://localhost:4200).
+
 
 ---
 
