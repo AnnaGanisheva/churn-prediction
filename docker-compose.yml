@@ -50,20 +50,33 @@ services:
       - back-tier
 
   prefect:
-    image: prefecthq/prefect:2.14-python3.10
+    image: prefecthq/prefect:2.10.13-python3.10
     command: prefect server start --host 0.0.0.0
     ports:
       - "4200:4200"
     networks:
       - back-tier
 
-  streamlit:
+  prefect-agent:
+    image: prefecthq/prefect:2.10.13-python3.10
+    command: prefect agent start -p 'default-agent-pool'
+    environment:
+      - PREFECT_API_URL=http://prefect:4200/api
+    depends_on:
+      - prefect
+    networks:
+      - back-tier
+
+  churn-prediction-app:
     build:
       context: .
       dockerfile: Dockerfile
+    environment:
+      - PREFECT_API_URL=http://prefect:4200/api
     ports:
       - "8501:8501"
     depends_on:
+      - prefect
       - mlflow
       - db
     networks:
