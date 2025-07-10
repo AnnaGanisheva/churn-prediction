@@ -5,7 +5,7 @@ from prefect import flow, task
 
 @task(retries=3, retry_delay_seconds=2)
 def ingest_data():
-    subprocess.run(["python", "-m", "src.pipelines.data_split"], check=True)
+    subprocess.run(["python", "-m", "src.pipelines.data_ingestion"], check=True)
 
 
 @task

@@ -138,6 +138,10 @@ Below is an example of registered deployments shown in the Prefect UI:
 
 ![Prefect Deployments](project_info/prefect_deployments.png)
 
+Timeline of a successful training_pipeline run showing task execution in Prefect UI.
+
+![Prefect Flow Run](project_info/prefect_flow_run.png)
+
 ---
 
 ### Monitoring

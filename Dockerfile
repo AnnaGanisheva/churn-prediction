@@ -18,7 +18,6 @@ RUN apt-get update && apt-get install -y make \
 RUN pip install --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-
 # Expose the port Streamlit runs on
 EXPOSE 8501
 
