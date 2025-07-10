@@ -1,11 +1,11 @@
 from prefect import flow, task
 
-from src.monitoring.evidently_drift import run_data_drift_report
+from src.monitoring.evidently_drift import run_evidently_monitoring
 
 
 @task
 def run_monitoring():
-    run_data_drift_report()
+    run_evidently_monitoring()
 
 
 @flow(name="monitoring-pipeline")

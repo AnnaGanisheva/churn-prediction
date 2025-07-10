@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+import os
 
 import pandas as pd
 import psycopg
@@ -22,24 +23,25 @@ CREATE TABLE IF NOT EXISTS evidently_reports (
 """
 
 
+def get_db_connection(autocommit=True):
+    return psycopg.connect(
+        host=os.getenv("POSTGRES_HOST", "db"),
+        port=int(os.getenv("POSTGRES_PORT", "5432")),
+        dbname=os.getenv("POSTGRES_DB", "test"),
+        user=os.getenv("POSTGRES_USER", "postgres"),
+        password=os.getenv("POSTGRES_PASSWORD", "example"),
+        autocommit=autocommit,
+    )
+
+
 def prep_db():
-    with psycopg.connect(
-        "host=localhost port=5432 user=postgres password=example", autocommit=True
-    ) as conn:
-        res = conn.execute("SELECT 1 FROM pg_database WHERE datname='test'")
-        if len(res.fetchall()) == 0:
-            conn.execute("create database test;")
-        with psycopg.connect(
-            "host=localhost port=5432 dbname=test user=postgres password=example"
-        ) as conn:
-            conn.execute(CREATE_TABLE_SQL)
+    with get_db_connection() as conn:
+        conn.execute(CREATE_TABLE_SQL)
 
 
 def save_report_to_db(report: Report):
     report_json = report.as_dict()
-    with psycopg.connect(
-        "host=localhost port=5432 dbname=test user=postgres password=example"
-    ) as conn:
+    with get_db_connection() as conn:
         with conn.cursor() as cur:
             cur.execute(
                 "INSERT INTO evidently_reports (report_json) VALUES (%s)",
@@ -74,6 +76,10 @@ def run_data_drift_report():
     logger.info("Report saved at %s", report_path_html.absolute())
 
 
-if __name__ == "__main__":
+def run_evidently_monitoring():
     prep_db()
     run_data_drift_report()
+
+
+if __name__ == "__main__":
+    run_evidently_monitoring()
