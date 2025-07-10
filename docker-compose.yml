@@ -37,6 +37,8 @@ services:
       - ./grafana/provisioning/grafana_datasources.yaml:/etc/grafana/provisioning/datasources/datasource.yaml:ro
       - ./grafana/provisioning/grafana_dashboards.yaml:/etc/grafana/provisioning/dashboards/dashboards.yaml:ro
       - ./grafana/dashboards:/opt/grafana/dashboards
+      - ./grafana/alerting:/etc/grafana/provisioning/alerting
+      - grafana_data:/var/lib/grafana
     networks:
       - back-tier
       - front-tier

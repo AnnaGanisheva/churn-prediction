@@ -18,7 +18,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 5,
+  "id": 1,
   "links": [],
   "panels": [
     {
@@ -36,7 +36,7 @@
             "axisCenteredZero": false,
             "axisColorMode": "text",
             "axisLabel": "",
-            "axisPlacement": "auto",
+            "axisPlacement": "left",
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
@@ -61,7 +61,7 @@
               "mode": "none"
             },
             "thresholdsStyle": {
-              "mode": "off"
+              "mode": "line"
             }
           },
           "mappings": [],
@@ -73,15 +73,16 @@
               },
               {
                 "color": "red",
-                "value": 80
+                "value": 0.1
               }
             ]
-          }
+          },
+          "unit": "percentunit"
         },
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
+        "h": 7,
         "w": 12,
         "x": 0,
         "y": 0
@@ -89,7 +90,12 @@
       "id": 3,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "lastNotNull"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -104,9 +110,9 @@
       "targets": [
         {
           "editorMode": "code",
-          "format": "table",
+          "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT \n  (report_json->>'timestamp')::timestamp AS ts,\n  (report_json->'metrics'->'missing_values'->>'share_of_missing_values')::float AS missing_share\nFROM evidently_reports\nORDER BY ts\n",
+          "rawSql": "SELECT \n  timestamp AS time,\n  (elem->'result'->'current'->>'share_of_missing_values')::float AS missing_share\nFROM evidently_reports,\nLATERAL jsonb_array_elements(report_json->'metrics') AS elem\nWHERE elem->>'metric' = 'DatasetMissingValuesMetric'\nORDER BY time;\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -127,7 +133,7 @@
           }
         }
       ],
-      "title": "Share of missing values",
+      "title": "Missing Values Over Time",
       "type": "timeseries"
     },
     {
@@ -223,7 +229,12 @@
       "id": 1,
       "options": {
         "legend": {
-          "calcs": [],
+          "calcs": [
+            "min",
+            "max",
+            "mean",
+            "lastNotNull"
+          ],
           "displayMode": "list",
           "placement": "bottom",
           "showLegend": true
@@ -244,7 +255,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT \n  (report_json->>'timestamp')::timestamp AS ts,\n  (report_json->'metrics'->'dataset_drift'->>'dataset_drift')::float AS drift_score\nFROM evidently_reports\nORDER BY ts",
+          "rawSql": "SELECT \n  timestamp AS ts,\n  (elem->'result'->>'drift_share')::float AS drift_score\nFROM evidently_reports,\nLATERAL jsonb_array_elements(report_json->'metrics') AS elem\nWHERE elem->>'metric' = 'DatasetDriftMetric'\nORDER BY ts;\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -265,7 +276,7 @@
           }
         }
       ],
-      "title": "Data Drift Score",
+      "title": "Drift Score Evolution",
       "type": "timeseries"
     },
     {
@@ -287,7 +298,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 20,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -297,7 +308,7 @@
             "insertNulls": false,
             "lineInterpolation": "linear",
             "lineWidth": 1,
-            "pointSize": 5,
+            "pointSize": 7,
             "scaleDistribution": {
               "type": "linear"
             },
@@ -331,7 +342,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 8
+        "y": 7
       },
       "id": 2,
       "options": {
@@ -351,9 +362,9 @@
       "targets": [
         {
           "editorMode": "code",
-          "format": "table",
+          "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT \n  (report_json->>'timestamp')::timestamp AS ts,\n  (report_json->'metrics'->'dataset_drift'->>'n_drifted_features')::int AS drifted_features\nFROM evidently_reports\nORDER BY ts",
+          "rawSql": "SELECT \n  timestamp AS time,\n  (elem->'result'->>'number_of_drifted_columns')::int AS drifted_features\nFROM evidently_reports,\nLATERAL jsonb_array_elements(report_json->'metrics') AS elem\nWHERE elem->>'metric' = 'DatasetDriftMetric'\nORDER BY time;\n",
           "refId": "A",
           "sql": {
             "columns": [
@@ -374,7 +385,7 @@
           }
         }
       ],
-      "title": "Drifted features",
+      "title": "Number of Drifted Features",
       "type": "timeseries"
     }
   ],
@@ -385,12 +396,12 @@
     "list": []
   },
   "time": {
-    "from": "2025-07-07T14:38:48.745Z",
-    "to": "2025-07-07T18:02:17.441Z"
+    "from": "now-7d",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "browser",
   "title": "Model Monitoring Dashboard",
   "uid": "3310f5a7-ec5e-494f-9b38-b673533a6523",
-  "version": 1
+  "version": 9
 }

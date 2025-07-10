@@ -1,0 +1,157 @@
+{
+    "apiVersion": 1,
+    "groups": [
+        {
+            "orgId": 1,
+            "name": "daily-monitoring",
+            "folder": "model-monitoring",
+            "interval": "1d",
+            "rules": [
+                {
+                    "uid": "ferjim8ao3lkwb",
+                    "title": "Missing value rate > 10%",
+                    "condition": "C",
+                    "data": [
+                        {
+                            "refId": "A",
+                            "relativeTimeRange": {
+                                "from": 604800,
+                                "to": 0
+                            },
+                            "datasourceUid": "PCC52D03280B7034C",
+                            "model": {
+                                "datasource": {
+                                    "type": "grafana-postgresql-datasource",
+                                    "uid": "PCC52D03280B7034C"
+                                },
+                                "editorMode": "code",
+                                "format": "time_series",
+                                "instant": false,
+                                "intervalMs": 60000,
+                                "maxDataPoints": 43200,
+                                "range": true,
+                                "rawQuery": true,
+                                "rawSql": "SELECT \n  timestamp AS time,\n  (elem->'result'->'current'->>'share_of_missing_values')::float AS missing_share\nFROM evidently_reports,\nLATERAL jsonb_array_elements(report_json->'metrics') AS elem\nWHERE elem->>'metric' = 'DatasetMissingValuesMetric'\nORDER BY time;\n",
+                                "refId": "A",
+                                "sql": {
+                                    "columns": [
+                                        {
+                                            "parameters": [],
+                                            "type": "function"
+                                        }
+                                    ],
+                                    "groupBy": [
+                                        {
+                                            "property": {
+                                                "type": "string"
+                                            },
+                                            "type": "groupBy"
+                                        }
+                                    ],
+                                    "limit": 50
+                                }
+                            }
+                        },
+                        {
+                            "refId": "B",
+                            "relativeTimeRange": {
+                                "from": 0,
+                                "to": 0
+                            },
+                            "datasourceUid": "__expr__",
+                            "model": {
+                                "conditions": [
+                                    {
+                                        "evaluator": {
+                                            "params": [],
+                                            "type": "gt"
+                                        },
+                                        "operator": {
+                                            "type": "and"
+                                        },
+                                        "query": {
+                                            "params": [
+                                                "B"
+                                            ]
+                                        },
+                                        "reducer": {
+                                            "params": [],
+                                            "type": "last"
+                                        },
+                                        "type": "query"
+                                    }
+                                ],
+                                "datasource": {
+                                    "type": "__expr__",
+                                    "uid": "__expr__"
+                                },
+                                "expression": "A",
+                                "intervalMs": 1000,
+                                "maxDataPoints": 43200,
+                                "reducer": "last",
+                                "refId": "B",
+                                "type": "reduce"
+                            }
+                        },
+                        {
+                            "refId": "C",
+                            "relativeTimeRange": {
+                                "from": 0,
+                                "to": 0
+                            },
+                            "datasourceUid": "__expr__",
+                            "model": {
+                                "conditions": [
+                                    {
+                                        "evaluator": {
+                                            "params": [
+                                                0.1
+                                            ],
+                                            "type": "gt"
+                                        },
+                                        "operator": {
+                                            "type": "and"
+                                        },
+                                        "query": {
+                                            "params": [
+                                                "C"
+                                            ]
+                                        },
+                                        "reducer": {
+                                            "params": [],
+                                            "type": "last"
+                                        },
+                                        "type": "query"
+                                    }
+                                ],
+                                "datasource": {
+                                    "type": "__expr__",
+                                    "uid": "__expr__"
+                                },
+                                "expression": "B",
+                                "intervalMs": 1000,
+                                "maxDataPoints": 43200,
+                                "refId": "C",
+                                "type": "threshold"
+                            }
+                        }
+                    ],
+                    "dashboardUid": "3310f5a7-ec5e-494f-9b38-b673533a6523",
+                    "panelId": 3,
+                    "noDataState": "NoData",
+                    "execErrState": "Error",
+                    "annotations": {
+                        "__dashboardUid__": "3310f5a7-ec5e-494f-9b38-b673533a6523",
+                        "__panelId__": "3",
+                        "description": "This alert is triggered when the drift score exceeds 0.1, indicating a significant shift in the data distribution compared to the reference dataset.",
+                        "summary": "Drift detected in feature distribution."
+                    },
+                    "isPaused": false,
+                    "notification_settings": {
+                        "receiver": "grafana-default-email"
+                    }
+                }
+            ]
+        }
+    ]
+}

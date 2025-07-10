@@ -146,7 +146,24 @@ Timeline of a successful training_pipeline run showing task execution in Prefect
 
 ### Monitoring
 
-*(Describe Evidently, Prometheus, Grafana integration, etc.)*
+To monitor model performance and data quality over time, a daily monitoring flow was implemented. It uses **Evidently** to compute key metrics like `missing_share`, `drift_score`, and `drifted_features`, which are saved to a **PostgreSQL** database and visualized using **Grafana**.
+
+The monitoring flow runs automatically via **Prefect** and can be easily extended with additional checks. Alerting rules are configured in Grafana to notify when critical thresholds are exceeded.
+
+#### Grafana Dashboard
+
+The screenshot below shows the main **Grafana dashboard**, which visualizes trends in missing values, drift scores, and the number of drifted features:
+
+![Grafana Dashboard](project_info/evidently_grafana_dashboard.png)
+
+#### Alerting Configuration
+
+Alerts can be triggered when thresholds are reached — for example, the screenshot below shows an alert rule that fires if the `missing_share` exceeds 10%:
+
+![Grafana Alert Rule](project_info/grafana_alert_rule.png)
+
+> ⚠️ *Note: The data shown in the screenshots was manually manipulated to visually demonstrate how the dashboards and alerts work.*
+
 
 ---
 
