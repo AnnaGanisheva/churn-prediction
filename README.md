@@ -12,6 +12,7 @@ This project is a practical example of implementing the full **MLOps workflow** 
 - [Data Processing](#data-processing)
 - [Model Selection](#model-selection)
 - [Experiment Tracking](#experiment-tracking)
+- [Model Deployment](#model-deployment)
 - [Orchestration](#orchestration)
 - [Monitoring](#monitoring)
 - [Setup & Usage](#setup--usage)
@@ -108,6 +109,22 @@ Only Random Forest results are shown, as its parameters are not directly compara
 The best-performing models were registered in the MLflow Model Registry:
 
 ![MLflow Model Registry](project_info/mlflow_registry.png)
+
+---
+
+## Model Deployment
+
+The trained churn prediction model is deployed using [Streamlit](https://streamlit.io/), a lightweight Python framework for building interactive web applications.
+
+In this project, a simple Streamlit app was developed to demonstrate how predictions can be served to end users through an intuitive web interface.
+Users can manually input selected customer features, and the model returns a prediction and probability of churn.
+
+**Note:** This UI is intended for demonstration purposes only. It uses a limited subset of input features and is not designed for full production use.
+
+Example of the Streamlit interface:
+
+![Streamlit UI](project_info/streamlit_ui.png)
+
 ---
 
 ### Orchestration
