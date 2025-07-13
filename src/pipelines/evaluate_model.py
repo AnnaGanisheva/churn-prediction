@@ -1,10 +1,11 @@
 import os
 from pathlib import Path
+
 import mlflow
 import mlflow.sklearn
-from mlflow.tracking import MlflowClient
 import pandas as pd
 from dotenv import load_dotenv
+from mlflow.tracking import MlflowClient
 from sklearn.metrics import (
     accuracy_score,
     f1_score,

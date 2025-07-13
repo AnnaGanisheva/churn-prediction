@@ -18,8 +18,6 @@ disable = [
   "missing-function-docstring",
   "missing-module-docstring",
   "duplicate-code", # TODO: Refactor duplicate-code in train_optuna_rf.py
-  "wrong-import-order",
-  "ungrouped-imports"
 ]
 
 [tool.pylint.'MAIN']

@@ -1,12 +1,12 @@
 import os
 from pathlib import Path
 
+import mlflow
 import mlflow.sklearn
 import pandas as pd
 from dotenv import load_dotenv
 from mlflow.tracking import MlflowClient
 
-import mlflow
 from src.utils.common import read_yaml
 from src.utils.logger import logger
 
