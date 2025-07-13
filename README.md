@@ -16,6 +16,7 @@ This project is a practical example of implementing the full **MLOps workflow** 
 - [Orchestration](#orchestration)
 - [Monitoring](#monitoring)
 - [Setup & Usage](#setup--usage)
+- [Code Quality & Automation](#code-quality--automation)
 - [Potential Improvements](#potential-improvements)
 
 ---
@@ -34,7 +35,8 @@ The main goal is to develop a robust and reproducible system that identifies cus
 
 ### Project Structure
 
-*(Insert description and image here)*
+The project follows a clean, modular structure aligned with MLOps best practices. Core components like data ingestion, preprocessing, training, and monitoring are organized in the `src/` directory. Configuration files are stored under `config/`, and workflows are orchestrated via Prefect flows located in `orchestration/`. Utility functions and logging are grouped under `utils/`. Infrastructure files such as Docker configuration, CI/CD pipelines, Makefile, and pre-commit setup are included in the root directory to ensure easy setup and reproducibility.
+
 
 #### Tools and Techniques
 
@@ -42,9 +44,7 @@ The main goal is to develop a robust and reproducible system that identifies cus
 - **Prefect** – Workflow orchestration for training and monitoring flows
 - **Streamlit** – Simple and interactive UI for model inference
 - **Docker** – Containerization for reproducible deployment
-- **Grafana + Prometheus + Evidently** – Monitoring model performance and data drift
-- **GitHub Actions** – CI/CD pipeline for tests and linting
-- **Makefile, pre-commit, flake8** – Reproducibility and code quality
+- **Grafana + Evidently** – Monitoring model performance and data drift
 ---
 
 ### Data Processing
@@ -196,24 +196,25 @@ Make sure the following tools are installed:
 
 #### Installation & Run
 
-Clone the repository and start the full environment using Docker:
+Clone the repository and start the full MLOps environment using Docker:
 
 ```bash
 git clone https://github.com/your-username/churn-prediction
 cd churn-prediction
 
-# Start all services (MLflow, Prefect UI, Streamlit, Grafana, etc.)
+# Start all services (MLflow, Prefect UI, Streamlit, Grafana, PostgreSQL, etc.)
 docker-compose up -d
-
-# Run training pipeline and register Prefect deployments
-docker-compose run churn-prediction-app make setup_project
 ```
 
-The `setup_project` command performs the following:
+This command launches the full system. The container `churn-prediction-app` automatically:
 
-- runs the training pipeline (including data processing, hyperparameter tuning, model registration),
-- logs experiments to MLflow,
-- creates and applies Prefect deployments (training + monitoring).
+- runs the training pipeline (data processing, model training, hyperparameter tuning),
+- logs experiments to **MLflow**,
+- registers and applies Prefect **deployments** (training and monitoring),
+- starts the **Prefect agent**,
+- launches the **Streamlit UI** for inference.
+
+> ℹ️ Make sure ports `8501` (Streamlit), `4200` (Prefect), `5050` (MLflow), and `3000` (Grafana) are available on your machine.
 
 All dependencies are pinned in `requirements.txt`. Configurations are stored in YAML files under the `config/` directory and managed centrally.
 
@@ -230,8 +231,45 @@ Once the environment is running, the following services are available:
 
 ---
 
+### Code Quality & Automation
+
+This project follows modern development practices to ensure code readability, maintainability, and reliability:
+
+- **Black** – automatic code formatting
+- **isort** – import sorting
+- **pylint** – static code analysis
+- **pytest** – test framework with coverage reporting
+- **pre-commit hooks** – automatic checks before each commit
+- **GitHub Actions** – CI pipeline defined in `.github/workflows/ci.yaml`
+
+All code is checked automatically on push and pull request.
+
+---
+
 ### Potential Improvements
+
+- **Improve model accuracy** through advanced feature engineering and model tuning.
+- **Enhance the Streamlit UI** by allowing full feature selection and visual explanations (e.g., SHAP).
+- **Deploy to the cloud** using AWS Fargate or similar managed infrastructure.
+- **Adopt Infrastructure as Code (IaC)** to automate cloud resource provisioning (e.g., Terraform).
+- **Extend testing coverage** by adding unit tests for all modules and implementing integration tests.
 
 ---
 
 #### Tasks summary
+
+This project provides an end-to-end solution for predicting customer churn, following key MLOps principles. Summary of completed components:
+
+- The problem is clearly described in the "Problem Statement" section.
+- The project runs locally using Docker Compose; cloud deployment and IaC are listed as potential improvements.
+- MLflow is used for experiment tracking and model registry.
+- Prefect is used for orchestration of both training and monitoring pipelines.
+- The model is deployed via a simple Streamlit UI for inference, included in the Docker setup.
+- Model monitoring is implemented using Evidently with visualizations and alerts in Grafana.
+- The setup is reproducible with pinned dependencies, clear instructions, and containerized services.
+- Good practices applied:
+  - Unit tests with pytest
+  - Linting and formatting (black, isort, pylint)
+  - Pre-commit hooks
+  - Makefile for automation
+  - CI/CD pipeline via GitHub Actions
