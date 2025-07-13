@@ -8,6 +8,7 @@ This project is a practical example of implementing the full **MLOps workflow** 
 ## Table of Contents
 
 - [Problem Statement](#problem-statement)
+- [Setup & Usage](#setup--usage)
 - [Project Structure](#project-structure)
 - [Data Processing](#data-processing)
 - [Model Selection](#model-selection)
@@ -15,7 +16,6 @@ This project is a practical example of implementing the full **MLOps workflow** 
 - [Model Deployment](#model-deployment)
 - [Orchestration](#orchestration)
 - [Monitoring](#monitoring)
-- [Setup & Usage](#setup--usage)
 - [Code Quality & Automation](#code-quality--automation)
 - [Potential Improvements](#potential-improvements)
 
@@ -30,6 +30,54 @@ This project aims to build a machine learning system that predicts customer chur
 #### Goal
 
 The main goal is to develop a robust and reproducible system that identifies customers with a high risk of churn so that the business can proactively retain them and reduce customer loss.
+
+---
+
+### Setup & Usage
+
+#### Prerequisites
+
+Make sure the following tools are installed:
+
+- [Python 3.10+](https://www.python.org/downloads/)
+- [Docker + Docker Compose](https://docs.docker.com/get-docker/)
+- [Git](https://git-scm.com/)
+
+#### Installation & Run
+
+Clone the repository and start the full MLOps environment using Docker:
+
+```bash
+git clone https://github.com/your-username/churn-prediction
+cd churn-prediction
+
+# Start all services (MLflow, Prefect UI, Streamlit, Grafana, PostgreSQL, etc.)
+docker-compose up -d
+```
+
+This command launches the full system. The container `churn-prediction-app` automatically:
+
+- runs the training pipeline (data processing, model training, hyperparameter tuning),
+- logs experiments to **MLflow**,
+- registers and applies Prefect **deployments** (training and monitoring),
+- starts the **Prefect agent**,
+- launches the **Streamlit UI** for inference.
+
+> ℹ️ Make sure ports `8501` (Streamlit), `4200` (Prefect), `5050` (MLflow), and `3000` (Grafana) are available on your machine.
+
+All dependencies are pinned in `requirements.txt`. Configurations are stored in YAML files under the `config/` directory and managed centrally.
+
+#### Access
+
+Once the environment is running, the following services are available:
+
+| Service         | URL                       | Credentials     |
+|-----------------|---------------------------|-----------------|
+| MLflow UI       | http://localhost:5050     | -               |
+| Streamlit App   | http://localhost:8501     | -               |
+| Prefect UI      | http://localhost:4200     | -               |
+| Grafana         | http://localhost:3000     | admin / admin   |
+
 
 ---
 
@@ -180,54 +228,6 @@ Alerts can be triggered when thresholds are reached — for example, the screens
 ![Grafana Alert Rule](project_info/grafana_alert_rule.png)
 
 > ⚠️ *Note: The data shown in the screenshots was manually manipulated to visually demonstrate how the dashboards and alerts work.*
-
-
----
-
-### Setup & Usage
-
-#### Prerequisites
-
-Make sure the following tools are installed:
-
-- [Python 3.10+](https://www.python.org/downloads/)
-- [Docker + Docker Compose](https://docs.docker.com/get-docker/)
-- [Git](https://git-scm.com/)
-
-#### Installation & Run
-
-Clone the repository and start the full MLOps environment using Docker:
-
-```bash
-git clone https://github.com/your-username/churn-prediction
-cd churn-prediction
-
-# Start all services (MLflow, Prefect UI, Streamlit, Grafana, PostgreSQL, etc.)
-docker-compose up -d
-```
-
-This command launches the full system. The container `churn-prediction-app` automatically:
-
-- runs the training pipeline (data processing, model training, hyperparameter tuning),
-- logs experiments to **MLflow**,
-- registers and applies Prefect **deployments** (training and monitoring),
-- starts the **Prefect agent**,
-- launches the **Streamlit UI** for inference.
-
-> ℹ️ Make sure ports `8501` (Streamlit), `4200` (Prefect), `5050` (MLflow), and `3000` (Grafana) are available on your machine.
-
-All dependencies are pinned in `requirements.txt`. Configurations are stored in YAML files under the `config/` directory and managed centrally.
-
-#### Access
-
-Once the environment is running, the following services are available:
-
-| Service         | URL                       | Credentials     |
-|-----------------|---------------------------|-----------------|
-| MLflow UI       | http://localhost:5050     | -               |
-| Streamlit App   | http://localhost:8501     | -               |
-| Prefect UI      | http://localhost:4200     | -               |
-| Grafana         | http://localhost:3000     | admin / admin   |
 
 ---
 
