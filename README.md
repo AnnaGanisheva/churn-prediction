@@ -9,6 +9,7 @@ This project is a practical example of implementing the full **MLOps workflow** 
 
 - [Problem Statement](#problem-statement)
 - [Setup & Usage](#setup--usage)
+- [Cloud Deployment](#cloud-deployment)
 - [Project Structure](#project-structure)
 - [Data Processing](#data-processing)
 - [Model Selection](#model-selection)
@@ -45,6 +46,7 @@ Make sure the following tools are installed:
 
 #### Installation & Run
 
+For cloud deployment, see [Cloud Deployment](#cloud-deployment).
 Clone the repository and start the full MLOps environment using Docker:
 
 ```bash
@@ -81,6 +83,47 @@ Once the environment is running, the following services are available:
 
 ---
 
+### Cloud Deployment
+
+This project includes a basic cloud deployment setup using **Terraform** and **AWS Fargate**.
+
+1. **Build and Push Docker Image**
+
+   First, you need to build your Docker image and push it to **Amazon ECR** manually.
+   Run the script `deploy.sh` after setting the configuration variables with your AWS credentials and ECR repository details:
+
+2. **Update Terraform Variable**
+
+   Insert your image URI into the `varuables.tf` file or provide it via CLI:
+   `terraform apply -var="image_uri=your-ecr-uri/churn-app:latest"`
+
+3. **Deploy Infrastructure**
+
+Run the following Terraform commands:
+
+```bash
+terraform init
+terraform apply
+```
+
+#### Access Services
+
+After deployment is complete, the following services will be available at these URLs:
+
+- **Streamlit**: `http://<PUBLIC_IP>:8501`
+- **MLflow UI**: `http://<PUBLIC_IP>:5050`
+- **Grafana**: `http://<PUBLIC_IP>:3000`
+- **Prefect UI**: `http://<PUBLIC_IP>:4200`
+
+> Replace `<PUBLIC_IP>` with the actual public IP address of your ECS task.
+> You can find it in the AWS Console under ECS → Tasks.
+
+---
+
+> ⚠️ Note: This cloud deployment was designed for demonstration purposes only. It uses basic Terraform and AWS Fargate setup without production-grade security, scalability, or cost optimization. Do not use it in production environments. Use this setup as a prototype or learning sandbox, and extend it according to your production needs.*
+
+---
+
 ### Project Structure
 
 The project follows a clean, modular structure aligned with MLOps best practices. Core components like data ingestion, preprocessing, training, and monitoring are organized in the `src/` directory. Configuration files are stored under `config/`, and workflows are orchestrated via Prefect flows located in `orchestration/`. Utility functions and logging are grouped under `utils/`. Infrastructure files such as Docker configuration, CI/CD pipelines, Makefile, and pre-commit setup are included in the root directory to ensure easy setup and reproducibility.
@@ -93,6 +136,8 @@ The project follows a clean, modular structure aligned with MLOps best practices
 - **Streamlit** – Simple and interactive UI for model inference
 - **Docker** – Containerization for reproducible deployment
 - **Grafana + Evidently** – Monitoring model performance and data drift
+- **AWS Fargate** – Cloud infrastructure for hosting the application
+- **Terraform** – Infrastructure as Code for automated cloud resource provisioning
 ---
 
 ### Data Processing
@@ -250,7 +295,7 @@ All code is checked automatically on push and pull request.
 
 - **Improve model accuracy** through advanced feature engineering and model tuning.
 - **Enhance the Streamlit UI** by allowing full feature selection and visual explanations (e.g., SHAP).
-- **Deploy to the cloud** using AWS Fargate or similar managed infrastructure.
+- **Cloud improvements**: It can be enhanced with autoscaling, secure secret management, CI/CD integration, and HTTPS support.
 - **Adopt Infrastructure as Code (IaC)** to automate cloud resource provisioning (e.g., Terraform).
 - **Extend testing coverage** by adding unit tests for all modules and implementing integration tests.
 
@@ -262,6 +307,7 @@ This project provides an end-to-end solution for predicting customer churn, foll
 
 - The problem is clearly described in the "Problem Statement" section.
 - The project runs locally using Docker Compose; cloud deployment and IaC are listed as potential improvements.
+- A *basic cloud deployment is included using AWS Fargate provisioned via Terraform.
 - MLflow is used for experiment tracking and model registry.
 - Prefect is used for orchestration of both training and monitoring pipelines.
 - The model is deployed via a simple Streamlit UI for inference, included in the Docker setup.

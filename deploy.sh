@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # === CONFIGURATION ===
-# 🔧 Replace these values with your own if needed
+#  Replace these values with your own if needed
 AWS_REGION="eu-central-1"
 AWS_ACCOUNT_ID="123456789012"  # Replace with your actual AWS Account ID
 REPO_NAME="churn-app"
