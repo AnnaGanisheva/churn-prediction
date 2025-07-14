@@ -78,6 +78,13 @@ resource "aws_ecs_task_definition" "streamlit" {
           containerPort = 8501
           protocol      = "tcp"
         }
+      ],
+      environment = [
+        {
+          # TODO: Replace with Route53 DNS or dynamic lookup later
+          name  = "MLFLOW_TRACKING_URI"
+          value = "http://63.178.232.50:5050"
+        }
       ]
     }
   ])
