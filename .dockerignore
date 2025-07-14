@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.pkl
+*.csv
+*.json
+*.log
+mlruns/
+htmlcov/
+artifacts/
+outputs/
+models/
+data/processed/
+data/split/
+venv/
+.ipynb_checkpoints/
